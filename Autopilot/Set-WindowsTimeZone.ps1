@@ -145,6 +145,8 @@ Process {
             New-Item -Path $LocationServiceStatusRegValue -Force | Out-Null
         }
 
+        #$LocationServiceStatusValue was erroring querying value as it did not exist.  Doing a brute force creation of the value so the script will continue if the value doesn't exist.
+        Set-ItemProperty -Path $LocationServiceStatusRegValue -Name "Status" -Type "DWord" -Value 1 -Force
         $LocationServiceStatusValue = Get-ItemPropertyValue -Path $LocationServiceStatusRegValue -Name "Status"
         Write-LogEntry -Value "Checking registry value 'Status' configuration in key: $($LocationServiceStatusRegValue)" -Severity 1
         if ($LocationServiceStatusValue -ne 1) {
